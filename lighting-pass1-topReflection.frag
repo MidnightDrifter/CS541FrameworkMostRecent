@@ -83,7 +83,7 @@ void main()
 {
 
 
-/*
+
 
 
 float PI = 3.14159;
@@ -122,10 +122,10 @@ vec3 output = t * LN * lightValue;
 gl_FragColor.xyz=output;
  
 	}
-*/
 
 
-gl_FragColor.xyz=vec3(1.0, 0.0, 0.0);
+
+
 
 
 	   }

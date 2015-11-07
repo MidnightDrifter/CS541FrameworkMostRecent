@@ -20,13 +20,14 @@ uniform sampler2D tex;
 
 
 
-in vec3 normalVec, lightVec;
-in vec3 eyeVec,transformEyeVec;
+
+in vec3 normalVec, lightVec, lightPos;
+in vec3 eyeVec, transformEyeVec;
 in vec2 texCoord;
 in vec3 worldPos;
-//in vec3 R, RNorm;
+in vec3 R, RNorm;
 in float depth;
-in vec4 currentPos;
+in vec3 currentPos;
 
 
 float PI = 3.14159;
@@ -87,7 +88,7 @@ void main()
 
 float PI = 3.14159;
 
-
+vec3 centerOfReflection = vec3(0.0, 0.0, 0.0);
 
 	vec3 V = normalize(eyeVec);
     vec3 N = normalize(normalVec);
@@ -95,13 +96,12 @@ float PI = 3.14159;
 	//vec3 H = normalize(L+V);
 
 	float LN = max(dot(L,N), 0.0);
-
-
-	//gl_FragColor.xyz=vec3(1.0, 0.5, 0.0);
-
-
 	
+	
+	//vec3 R = 2
+
 	vec3 zero= vec3(0.0, 0.0, 0.0);
+
 	
 	    if (textureSize(groundTexture,0).x>1) // Is the texture defined?
         {
@@ -110,30 +110,22 @@ float PI = 3.14159;
 		gl_FragColor.xyz = temp;
 		
 		}
-
-else 
-{
-vec3 t = BRDF(transformEyeVec, normalVec, lightVec, diffuse, specular, shininess);
+		else
+		{
+vec3 t = BRDF(eyeVec, normalVec, lightVec, diffuse, specular, shininess);
 vec3 output = t * LN * lightValue;	
-gl_FragColor.xyz = output;
-//gl_FragColor.xyz = vec3(1.0, 0.5, 0.0);
-//vec4 R = currentPos;
-//float length = length(R);
-//vec4 RNorm = normalize(R);
-//float depth = 1+RNorm.z;
 
-//gl_FragColor.xyz=BRDF(eyeVec, normalVec, lightVec, diffuse, specular, shininess);
-//gl_FragColor = RNorm;
 
-float LNReal = dot(L,N);
-vec3 white = vec3(1.0f, 1.0f, 1.0f);
 
-//Look up tex coord at:  
 
-//vec2 myTexCoord = (0.5)*vec2(RNorm.x/depth +1, RNorm.y/depth +1);
 
-//gl_FragColor.xyz=output;
-//gl_FragColor.xyz=vec3(1.0, 0.0, 0.0);
-	
+gl_FragColor.xyz=output;
+ 
 	}
+
+
+
+
+
+
 	   }

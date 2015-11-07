@@ -121,64 +121,54 @@ vec3 white = vec3(1.0f, 1.0f, 1.0f);
 
 
 		
-			else if(isCentralModel == -1)
+			else if(isCentralModel == -1.0)
 				{
 				
 					
 					vec3 textureColor; //The color at the texture coord
 					float depth = RNorm.z; 
-					vec2 texCoord; // = (0.5)*vec2(RNorm.x/depth +1, RNorm.y/depth +1);
+					vec2 texCoord = vec2(0.0, 0.0);
 					float RN = max(dot(RNorm,N),0.0);
+					 RN = dot(RNorm, N);
+
 					if(worldPos.z <0)
 					{
-					depth = 1-depth;
-					texCoord = vec2(0.5*RNorm.x/depth +0.5 , 0.5*RNorm.y/depth + 0.5);
-					//textureColor = BRDF(texture(bottomReflectionTexture, texCoord.xy).xyz, specular, shininess);
-					textureColor = texture(bottomReflectionTexture, vec2(0.0, 0.0)).xyz;
+						depth = 1.0-depth;
+						texCoord = vec2(0.5*RNorm.x/depth +0.5 , 0.5*RNorm.y/depth + 0.5);
+				
+						textureColor = texture(bottomReflectionTexture, texCoord.xy).xyz;
 					
-					gl_FragColor.xyz = textureColor;
-					if(textureColor.x==textureColor.y && textureColor.z == textureColor.x && textureColor.x==0)
-					{
-						//gl_FragColor.xyz = white;
-					}
+				
 	
-				gl_FragColor.xyz = (BRDF(eyeVec, normalVec, lightVec,diffuse, specular, shininess))*LN*(lightValue) + (textureColor*RN*BRDF((R), normalVec, R, diffuse, specular, shininess));
+						gl_FragColor.xyz = (BRDF(eyeVec, normalVec, lightVec,diffuse, specular, shininess)*LN*(lightValue)) + (textureColor*RN*BRDF((eyeVec), normalVec, R, diffuse, specular, shininess));
+
+
+						
 				
-		
-				
-				}
+					}
 
 					else
-					{depth = 1+depth;
-					texCoord = vec2(RNorm.x/(2*depth) +0.5, RNorm.y/(depth*2) +0.5);
-					textureColor = texture(topReflectionTexture, texCoord.xy).xyz;
+					{	depth = 1.0+depth;
+						texCoord = vec2(0.5*RNorm.x/(depth) +0.5, 0.5*RNorm.y/(depth) +0.5);
+						textureColor = texture(topReflectionTexture, texCoord.xy).xyz;
 					
 				
-				gl_FragColor.xyz = (BRDF(eyeVec, normalVec, lightVec,diffuse, specular, shininess))*LN*(lightValue) + (textureColor*RN*BRDF((R), normalVec, R, diffuse, specular, shininess));
-				//gl_FragColor.xyz = textureColor;
-
-
 				
+						gl_FragColor.xyz = (BRDF(eyeVec, normalVec, lightVec,diffuse, specular, shininess)*LN*(lightValue)) + (textureColor*RN*BRDF((eyeVec), normalVec, R, diffuse, specular, shininess));
 
+			
 					
 					}
 						
-					/*	
-					gl_FragColor.xyz=vec3(1.0, 0.5, 0.0);
-				
-
-					if(textureSize(bottomReflectionTexture, 0).x>1)// || textureSize(bottomReflectionTexture, 0) < 1024)
-					{gl_FragColor.xyz=vec3(0.0, 1.0, 0.0);}
-					else
-					{gl_FragColor.xyz=vec3(1.0, 0.0, 0.0);}
-			*/
+						gl_FragColor.xyz /= 25.0;
 			
 			
 			}
+
 			else
 			{
 			
-			gl_FragColor.xyz = output;
+				gl_FragColor.xyz = output;
 
 			}
 				

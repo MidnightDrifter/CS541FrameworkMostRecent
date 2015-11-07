@@ -43,24 +43,8 @@ void main()
     lightVec = lightPos - worldPos;
 	vec4 worldVertex = ModelMatrix * vertex;
 
-	//vec3 V = normalize(eyeVec);
-	//vec3 N = normalize(normalVec);
-
-	//vec4 currentPos = worldVertex / worldVertex.w;
-	//float length = length(currentPos.xyz);
-	//currentPos = currentPos/length;
-//	currentPos.z +=1;
-	//currentPos.x = currentPos.x/currentPos.z;
-	//currentPos.y=currentPos.y/currentPos.z;
-	//currentPos.z = (length - 0.9)/100;
-	//currentPos.w = 1;
 	
 	
-	//vec3 eyeVec = currentPos.xyz; //Center of reflection is at origin, so no need to subtract
-	//gl_Position = currentPos;
-	
-	
-	transformEyeVec = worldPos - centerOfReflection.xyz;
 	
 	vec3 R = worldPos;
 	vec3 RNorm = normalize(R);
